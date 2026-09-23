@@ -19,13 +19,13 @@ mode_close() {
   # Only disable internal screen if an external monitor is connected
   MONITORS_COUNT=$(hyprctl monitors all | grep -c "Monitor")
   if [[ $MONITORS_COUNT -gt 1 ]]; then
-    hyprctl keyword monitor "$INTERNAL_DISPLAY, disable"
+    hyprctl eval "hl.monitor({ output = \"$INTERNAL_DISPLAY\", disabled = true })"
   fi
 }
 
 mode_open() {
   # Force enable internal screen
-  hyprctl keyword monitor "$INTERNAL_DISPLAY, preferred, auto, 1"
+  hyprctl eval "hl.monitor({ output = \"$INTERNAL_DISPLAY\", mode = \"preferred\", position = \"auto\", scale = 1, disabled = false })"
 }
 
 # --- LOGIC ---

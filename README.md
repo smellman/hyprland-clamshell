@@ -28,30 +28,28 @@ Unlike simple scripts, this solution handles **Hyprland reloads** gracefully and
     ```
 3.  **Edit the script:** Change the `INTERNAL_DISPLAY` variable (line 5) to match your monitor name (check it with `hyprctl monitors`).
 
-## ⚙️ Configuration (hyprland.conf)
+## ⚙️ Configuration (hyprland.lua)
 
-Add these lines to your `hyprland.conf` or `autostart.conf`:
+Add these lines to your `hyprland.lua` (or a module you `require` from it):
 
 ### 1. Event Bindings
 These trigger the script when you actually open or close the lid.
-```ini
-bindl = , switch:on:Lid Switch, exec, /path/to/clamshell.sh close
-bindl = , switch:off:Lid Switch, exec, /path/to/clamshell.sh open
-
+```lua
+hl.bind("switch:on:Lid Switch",  hl.dsp.exec_cmd("/path/to/clamshell.sh close"), { locked = true })
+hl.bind("switch:off:Lid Switch", hl.dsp.exec_cmd("/path/to/clamshell.sh open"),  { locked = true })
 ```
 
 ### 2. Startup/Reload Check
 
 **Crucial:** This ensures the correct state is applied when you log in or reload the config.
 
-```ini
-exec = /path/to/clamshell.sh check
-
+```lua
+hl.exec_cmd("/path/to/clamshell.sh check")
 ```
 
 ## 📋 Requirements
 
-* Hyprland
+* Hyprland (with Lua configuration, `hyprland.lua`)
 * `libnotify` (for notifications)
 * `grep` / `bash`
 
